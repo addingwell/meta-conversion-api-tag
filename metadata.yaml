@@ -15,5 +15,5 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://github.com/addingwell/meta-conversion-api-tag/blob/master/README.md"
 versions:
-  - sha: 4e55beb540abbbc25b75f03161186dce0ce906fd
+  - sha: 010eb0777dd67e6cc23e2dbd0fb33a9cd3149816
     changeNotes: Initial commit
