@@ -17,3 +17,5 @@ documentation: "https://github.com/addingwell/meta-conversion-api-tag/blob/maste
 versions:
   - sha: 010eb0777dd67e6cc23e2dbd0fb33a9cd3149816
     changeNotes: Initial commit
+  - sha: 00a8f5489ec20d29b49005249c9fd46f42456f31
+    changeNotes: default currency if missing
