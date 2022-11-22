@@ -538,7 +538,7 @@ if (event.event_name === 'InitiateCheckout') {
     event.custom_data.num_items = getItemsQuantity(eventData.items);
 }
 if ((event.custom_data.contents || event.custom_data.value) && !event.custom_data.currency) {
-  event.custom_data.currency = 'USD'
+  event.custom_data.currency = 'USD';
 }
 
 // Override data with configuration
