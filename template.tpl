@@ -497,7 +497,7 @@ if (!fbp) {
 let event = {};
 event.event_name = getFacebookEventName(eventData.event_name, data);
 event.event_time = eventData.event_time || (Math.round(getTimestampMillis() / 1000));
-event.event_id = eventData.event_id || (!!data.sendPixelRequest) ? generateEventId() : undefined;
+event.event_id = eventData.event_id || ((!!data.sendPixelRequest) ? generateEventId() : undefined);
 event.event_source_url = eventData.page_location;
 event.action_source = eventData.action_source ? eventData.action_source : 'website';
 
@@ -525,19 +525,19 @@ event.user_data.country = addressData.country;
 
 // CUSTOM DATA
 event.custom_data = {};
-event.custom_data.currency = eventData.currency || (eventData.items && eventData.items[0]) ? eventData.items[0].currency : undefined;
+event.custom_data.currency = eventData.currency || ((eventData.items && eventData.items[0]) ? eventData.items[0].currency : undefined);
 event.custom_data.value = eventData.value || getValueFromItems(eventData.items);
 event.custom_data.search_string = eventData.search_term;
 event.custom_data.order_id = eventData.transaction_id;
 event.custom_data.content_category = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_category : undefined;
 event.custom_data.content_name = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_name : undefined;
-event.custom_data.content_type = 'product';
+event.custom_data.content_type = (eventData.items) ? 'product' : undefined;
 event.custom_data.contents = getContentFromItems(eventData.items);
 event.custom_data.content_ids = getContentIdsFromItems(eventData.items);
 if (event.event_name === 'InitiateCheckout') {
     event.custom_data.num_items = getItemsQuantity(eventData.items);
 }
-if ((event.custom_data.contents || event.custom_data.value) && !event.custom_data.currency) {
+if (!event.custom_data.currency && (event.custom_data.contents || event.custom_data.value)) {
   event.custom_data.currency = 'USD';
 }
 
