@@ -19,3 +19,5 @@ versions:
     changeNotes: Initial commit
   - sha: 8f4d8b59e8ad377f1ba761c9690195dd7e0d650f
     changeNotes: default currency if missing
+  - sha: ad70925db28eee33e0a287acbe1084c9505862dd
+    changeNotes: fix currency and product_type parameters
