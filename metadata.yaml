@@ -21,3 +21,5 @@ versions:
     changeNotes: default currency if missing
   - sha: ad70925db28eee33e0a287acbe1084c9505862dd
     changeNotes: fix currency and product_type parameters
+  - sha: d8267fedcfadde15edc79711b90e358f423edcca
+    changeNotes: update partner agent
