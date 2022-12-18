@@ -23,3 +23,5 @@ versions:
     changeNotes: fix currency and product_type parameters
   - sha: d8267fedcfadde15edc79711b90e358f423edcca
     changeNotes: update partner agent
+  - sha: f529fd5b8bf28be427f143972d65682be58b1143
+    changeNotes: Add additional custom params to pixel request
