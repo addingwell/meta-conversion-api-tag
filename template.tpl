@@ -677,7 +677,13 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
             addParam('cd[currency]', event.custom_data.currency) +
             addParam('cd[search_string]', event.custom_data.search_string) +
             addParam('cd[value]', event.custom_data.value);
-            
+
+            if (data.customDataList) {
+                data.customDataList.forEach(d => {
+                    params += addParam('cd[' + d.name + ']', d.value);
+                });
+            }
+
             sendPixelFromBrowser('https://www.facebook.com/tr/' + params);
         }
 
