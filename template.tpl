@@ -653,7 +653,7 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
         }
         
         if (!!data.sendPixelRequest) {
-            const params = "?ev=" + event.event_name +
+            let params = "?ev=" + event.event_name +
             addParam('id', enc(data.pixelId)) +
             addParam('eid', event.event_id) +
             addParam('fbp', fbp) + 
