@@ -593,7 +593,7 @@ if (event.custom_data) {
 if (event.user_data) {
     for (let key in event.user_data) {
         if (key === 'em' || key === 'ph' || key === 'ge' || key === 'db' || key === 'ln' || key === 'fn' || key === 'ct' || key === 'st' || key === 'zp' || key === 'country') {
-            event.user_data[key] = hashData(key, event.user_data[key]);
+            event.user_data[key] = hashData(event.user_data[key]);
         }
     }
 }
