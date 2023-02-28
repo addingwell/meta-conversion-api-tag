@@ -15,13 +15,15 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://github.com/addingwell/meta-conversion-api-tag/blob/master/README.md"
 versions:
-  - sha: 010eb0777dd67e6cc23e2dbd0fb33a9cd3149816
-    changeNotes: Initial commit
-  - sha: 8f4d8b59e8ad377f1ba761c9690195dd7e0d650f
-    changeNotes: default currency if missing
-  - sha: ad70925db28eee33e0a287acbe1084c9505862dd
-    changeNotes: fix currency and product_type parameters
-  - sha: d8267fedcfadde15edc79711b90e358f423edcca
-    changeNotes: update partner agent
+  - sha: 2f5fffec6f188c06d0612f3452a7592d4c8a727e
+    changeNotes: Fix hash user data bug
   - sha: 46f8eee32d11c46ce17aa7cf44f0de8451291c5b
     changeNotes: Add additional custom params to pixel request
+  - sha: d8267fedcfadde15edc79711b90e358f423edcca
+    changeNotes: update partner agent    
+  - sha: ad70925db28eee33e0a287acbe1084c9505862dd
+    changeNotes: fix currency and product_type parameters
+  - sha: 8f4d8b59e8ad377f1ba761c9690195dd7e0d650f
+    changeNotes: default currency if missing
+  - sha: 010eb0777dd67e6cc23e2dbd0fb33a9cd3149816
+    changeNotes: Initial commit
