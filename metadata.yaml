@@ -15,6 +15,8 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://github.com/addingwell/meta-conversion-api-tag/blob/master/README.md"
 versions:
+  - sha: 83029a4294a68cb67c083d5ab98247de382bc415
+    changeNotes: Update user_data
   - sha: 2f5fffec6f188c06d0612f3452a7592d4c8a727e
     changeNotes: Fix hash user data bug
   - sha: 46f8eee32d11c46ce17aa7cf44f0de8451291c5b
