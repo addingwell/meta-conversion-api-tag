@@ -511,13 +511,14 @@ event.user_data.fb_login_id = eventData.fb_login_id;
 event.user_data.external_id = eventData.user_id;
 event.user_data.subscription_id = eventData.subscription_id;
 event.user_data.lead_id = eventData.lead_id;
-event.user_data.em = (eventData.user_data != null ? eventData.user_data.email_address : undefined);
-event.user_data.ph = (eventData.user_data != null ? eventData.user_data.phone_number : undefined);
+event.user_data.em = (eventData.user_data != null) ? eventData.user_data.email_address || eventData.user_data.sha256_email_address || eventData.user_data.email : undefined;
+event.user_data.ph = (eventData.user_data != null) ? eventData.user_data.phone_number || eventData.user_data.sha256_phone_number : undefined;
 
 // ADDRESS DATA
 const addressData = (eventData.user_data != null && eventData.user_data.address != null) ? eventData.user_data.address : {};
-event.user_data.fn = addressData.first_name;
-event.user_data.ln = addressData.last_name;
+event.user_data.ge = addressData.gender;
+event.user_data.fn = addressData.first_name || addressData.sha256_first_name;
+event.user_data.ln = addressData.last_name || addressData.sha256_last_name;
 event.user_data.ct = addressData.city;
 event.user_data.st = addressData.region;
 event.user_data.zp = addressData.postal_code;
