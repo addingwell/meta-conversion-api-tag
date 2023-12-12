@@ -549,7 +549,7 @@ event.user_data.em = (eventData.user_data != null) ? eventData.user_data.email_a
 event.user_data.ph = (eventData.user_data != null) ? eventData.user_data.phone_number || eventData.user_data.sha256_phone_number : undefined;
 
 // ADDRESS DATA
-const addressData = (eventData.user_data != null && eventData.user_data.address != null) ? eventData.user_data.address : {};
+const addressData = (eventData.user_data != null && eventData.user_data.address != null) ? (eventData.user_data.address[0] != null ? eventData.user_data.address[0] : eventData.user_data.address) : {};
 event.user_data.ge = addressData.gender;
 event.user_data.fn = addressData.first_name || addressData.sha256_first_name;
 event.user_data.ln = addressData.last_name || addressData.sha256_last_name;
