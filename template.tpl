@@ -825,7 +825,7 @@ function enc(data) {
 }
 
 function isAlreadyHashed(input){
-  return input && (input.match('^[A-Fa-f0-9]{64}$') != null);
+  return input && (input.toString().match('^[A-Fa-f0-9]{64}$') != null);
 }
 
 function hashData(input){
@@ -833,7 +833,7 @@ function hashData(input){
     return input;
   }
 
-  return sha256Sync(input.trim().toLowerCase(), {outputEncoding: 'hex'});
+  return sha256Sync(input.toString().trim().toLowerCase(), {outputEncoding: 'hex'});
 }
 
 function determinateIsLoggingEnabled() {
