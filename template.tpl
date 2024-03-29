@@ -533,6 +533,7 @@ event.event_name = getFacebookEventName(eventData.event_name, data);
 event.event_time = eventData.event_time || (Math.round(getTimestampMillis() / 1000));
 event.event_id = eventData.event_id || ((!!data.sendPixelRequest) ? generateEventId() : undefined);
 event.event_source_url = eventData.page_location;
+event.referrer_url = eventData.page_referrer;
 event.action_source = eventData.action_source ? eventData.action_source : 'website';
 
 // USER DATA
