@@ -717,8 +717,15 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
 
       if (data.customDataList) {
         data.customDataList.forEach(d => {
+          let value;
+          if (d.name === 'content_ids') {
+            value = JSON.stringify(d.value);
+          } else {
+            value = d.value;
+          }
+
           urlParams = urlParams.filter(v => v[0].indexOf('cd[' + d.name + ']') === -1);
-          urlParams.push(['cd[' + d.name + ']', d.value]);
+          urlParams.push(['cd[' + d.name + ']', value]);
         });
       }
 
