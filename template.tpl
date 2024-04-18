@@ -1,4 +1,4 @@
-﻿___INFO___
+___INFO___
 
 {
   "type": "TAG",
@@ -533,7 +533,6 @@ event.event_name = getFacebookEventName(eventData.event_name, data);
 event.event_time = eventData.event_time || (Math.round(getTimestampMillis() / 1000));
 event.event_id = eventData.event_id || ((!!data.sendPixelRequest) ? generateEventId() : undefined);
 event.event_source_url = eventData.page_location;
-event.referrer_url = eventData.page_referrer;
 event.action_source = eventData.action_source ? eventData.action_source : 'website';
 
 // USER DATA
@@ -689,36 +688,40 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
     }
 
     if (!!data.sendPixelRequest) {
-      let params = "?ev=" + event.event_name +
-        addParam('id', enc(data.pixelId)) +
-        addParam('eid', event.event_id) +
-        addParam('fbp', fbp) +
-        addParam('fbc', fbc) +
-        addParam('cd[em]', event.user_data.em) +
-        addParam('cd[ph]', event.user_data.ph) +
-        addParam('cd[ge]', event.user_data.ge) +
-        addParam('cd[db]', event.user_data.db) +
-        addParam('cd[ln]', event.user_data.ln) +
-        addParam('cd[fn]', event.user_data.fn) +
-        addParam('cd[ct]', event.user_data.ct) +
-        addParam('cd[st]', event.user_data.st) +
-        addParam('cd[zp]', event.user_data.zp) +
-        addParam('cd[country]', event.user_data.country) +
-        addParam('cd[external_id]', event.user_data.external_id) +
-        addParam('cd[content_category]', event.custom_data.content_category) +
-        addParam('cd[content_type]', event.custom_data.content_type) +
-        addParam('cd[content_name]', event.custom_data.content_name) +
-        addParam('cd[contents]', mapContentsToPixel(event.custom_data.contents)) +
-        addParam('cd[content_ids]', (event.custom_data.content_ids) ? JSON.stringify(event.custom_data.content_ids) : null) +
-        addParam('cd[currency]', event.custom_data.currency) +
-        addParam('cd[search_string]', event.custom_data.search_string) +
-        addParam('cd[value]', event.custom_data.value);
+      let urlParams = [
+        ['id', enc(data.pixelId)],
+        ['eid', event.event_id],
+        ['fbp', fbp],
+        ['fbc', fbc],
+        ['cd[em]', event.user_data.em],
+        ['cd[ph]', event.user_data.ph],
+        ['cd[ge]', event.user_data.ge],
+        ['cd[db]', event.user_data.db],
+        ['cd[ln]', event.user_data.ln],
+        ['cd[fn]', event.user_data.fn],
+        ['cd[ct]', event.user_data.ct],
+        ['cd[st]', event.user_data.st],
+        ['cd[zp]', event.user_data.zp],
+        ['cd[country]', event.user_data.country],
+        ['cd[external_id]', event.user_data.external_id],
+        ['cd[content_category]', event.custom_data.content_category],
+        ['cd[content_type]', event.custom_data.content_type],
+        ['cd[content_name]', event.custom_data.content_name],
+        ['cd[contents]', mapContentsToPixel(event.custom_data.contents)],
+        ['cd[content_ids]', (event.custom_data.content_ids) ? JSON.stringify(event.custom_data.content_ids) : null],
+        ['cd[currency]', event.custom_data.currency],
+        ['cd[search_string]', event.custom_data.search_string],
+        ['cd[value]', event.custom_data.value],
+      ];
 
       if (data.customDataList) {
         data.customDataList.forEach(d => {
-          params += addParam('cd[' + d.name + ']', d.value);
+          urlParams = urlParams.filter(v => v[0].indexOf('cd[' + d.name + ']') === -1);
+          urlParams.push(['cd[' + d.name + ']', d.value]);
         });
       }
+
+      let params = "?ev=" + event.event_name + '&' + urlParams.filter((v) => v[1]).map((v) => v[0] + '=' + encodeUriComponent(v[1].toString())).join('&');
 
       sendPixelFromBrowser('https://www.facebook.com/tr/' + params);
     }
@@ -826,7 +829,7 @@ function enc(data) {
 }
 
 function isAlreadyHashed(input){
-  return input && (input.toString().match('^[A-Fa-f0-9]{64}$') != null);
+  return input && (input.match('^[A-Fa-f0-9]{64}$') != null);
 }
 
 function hashData(input){
@@ -834,7 +837,7 @@ function hashData(input){
     return input;
   }
 
-  return sha256Sync(input.toString().trim().toLowerCase(), {outputEncoding: 'hex'});
+  return sha256Sync(input.trim().toLowerCase(), {outputEncoding: 'hex'});
 }
 
 function determinateIsLoggingEnabled() {
