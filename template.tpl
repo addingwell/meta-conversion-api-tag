@@ -652,6 +652,23 @@ if (isLoggingEnabled) {
   }));
 }
 
+const cookieOptions = {
+    domain: 'auto',
+    path: '/',
+    samesite: 'Lax',
+    secure: true,
+    'max-age': 7776000,
+    HttpOnly: false
+};
+
+if (fbc) {
+    setCookie('_fbc', fbc, cookieOptions);
+}
+
+if (fbp) {
+    setCookie('_fbp', fbp, cookieOptions);
+}
+
 sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
   if (isLoggingEnabled) {
     logToConsole(JSON.stringify({
@@ -666,28 +683,6 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
   }
 
   if (statusCode >= 200 && statusCode < 300) {
-    if (fbc) {
-      setCookie('_fbc', fbc, {
-        domain: 'auto',
-        path: '/',
-        samesite: 'Lax',
-        secure: true,
-        'max-age': 7776000,
-        HttpOnly: false
-      });
-    }
-
-    if (fbp) {
-      setCookie('_fbp', fbp, {
-        domain: 'auto',
-        path: '/',
-        samesite: 'Lax',
-        secure: true,
-        'max-age': 7776000,
-        HttpOnly: false
-      });
-    }
-
     if (!!data.sendPixelRequest) {
       let urlParams = [
         ['id', enc(data.pixelId)],
