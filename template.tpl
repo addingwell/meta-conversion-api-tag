@@ -772,8 +772,8 @@ function getContentFromItems(items) {
   return items.map(item => {
     return {
       "id": item[idField],
-      "item_price": item[priceField],
-      "quantity": item[quantityField],
+      "item_price": makeNumber(item[priceField]),
+      "quantity": makeNumber(item[quantityField]),
     };
   });
 }
