@@ -694,6 +694,10 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
     if (!!data.sendPixelRequest) {
       let urlParams = [
         ['id', enc(data.pixelId)],
+        ['dl', eventData.page_location],
+        ['rl', eventData.page_referrer],
+        ['sw', eventData.screen_resolution.split('x')[0]],
+        ['sh', eventData.screen_resolution.split('x')[1]],
         ['eid', event.event_id],
         ['fbp', fbp],
         ['fbc', fbc],
