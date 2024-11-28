@@ -1,7 +1,7 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://docs.addingwell.com/meta-capi/benefits"
 versions:
-  - sha: 2b67282a57346621ec5f9b5222de046471ad5d8a
+  - sha: 721fd30dffb9fab93945abf94b39b98f7bc45145
     changeNotes: Add dl, rl, sw and sh parameters to pixel request
   - sha: 709b9cd978b53180d5e2f67d4b957c228de974fe
     changeNotes: Update template name
