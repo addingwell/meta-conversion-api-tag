@@ -486,7 +486,7 @@ const isLoggingEnabled = determinateIsLoggingEnabled();
 const traceId = isLoggingEnabled ? getRequestHeader('trace-id') : undefined;
 
 const API_ENDPOINT = 'https://graph.facebook.com';
-const API_VERSION = 'v19.0';
+const API_VERSION = 'v21.0';
 const PARTNER_AGENT = 'gtmss-addingwell-1.0.0';
 const GTM_EVENT_MAPPINGS = {
   'page_view': 'PageView',
@@ -692,8 +692,23 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
 
   if (statusCode >= 200 && statusCode < 300) {
     if (!!data.sendPixelRequest) {
+      
+      let sw;
+      let sh;
+      
+      if(eventData.screen_resolution) {
+        if(eventData.screen_resolution.split('x').length == 2) {
+          sw = eventData.screen_resolution.split('x')[0];
+          sh = eventData.screen_resolution.split('x')[1];
+        }
+      }
+
       let urlParams = [
         ['id', enc(data.pixelId)],
+        ['dl', eventData.page_location],
+        ['rl', eventData.page_referrer],
+        ['sw', sw],
+        ['sh', sh],
         ['eid', event.event_id],
         ['fbp', fbp],
         ['fbc', fbc],
