@@ -486,7 +486,7 @@ const isLoggingEnabled = determinateIsLoggingEnabled();
 const traceId = isLoggingEnabled ? getRequestHeader('trace-id') : undefined;
 
 const API_ENDPOINT = 'https://graph.facebook.com';
-const API_VERSION = 'v21.0';
+const API_VERSION = 'v22.0';
 const PARTNER_AGENT = 'gtmss-addingwell-1.0.0';
 const GTM_EVENT_MAPPINGS = {
   'page_view': 'PageView',
