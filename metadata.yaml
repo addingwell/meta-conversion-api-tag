@@ -1,6 +1,8 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://docs.addingwell.com/meta-capi/benefits"
 versions:
+  - sha: 7f523d62a516409db313f6bf5fa0930c95f7ec4c
+    changeNotes: Fix pixel user_data and api version update to v22.0
   - sha: 721fd30dffb9fab93945abf94b39b98f7bc45145
     changeNotes: Add dl, rl, sw and sh parameters to pixel request
   - sha: 709b9cd978b53180d5e2f67d4b957c228de974fe
