@@ -570,7 +570,7 @@ event.user_data.country = addressData.country;
 // CUSTOM DATA
 event.custom_data = {};
 event.custom_data.currency = eventData.currency || ((eventData.items && eventData.items[0]) ? eventData.items[0].currency : undefined);
-event.custom_data.value = eventData.value || getValueFromItems(eventData.items);
+event.custom_data.value = makeNumber(eventData.value) || getValueFromItems(eventData.items);
 event.custom_data.search_string = eventData.search_term;
 event.custom_data.order_id = eventData.transaction_id;
 event.custom_data.content_category = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_category : undefined;
@@ -600,7 +600,11 @@ if (data.userDataList) {
 
 if (data.customDataList) {
   data.customDataList.forEach(d => {
-    event.custom_data[d.name] = d.value;
+    if(d.name == "value") {
+      event.custom_data[d.name] = makeNumber(d.value);
+    } else {
+      event.custom_data[d.name] = d.value;
+    }
   });
 }
 
