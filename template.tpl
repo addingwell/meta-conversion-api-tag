@@ -673,12 +673,12 @@ const cookieOptions = {
     HttpOnly: false
 };
 
-if (fbc) {
-    setCookie('_fbc', fbc, cookieOptions);
+if (event.user_data.fbc) {
+    setCookie('_fbc', event.user_data.fbc, cookieOptions);
 }
 
-if (fbp) {
-    setCookie('_fbp', fbp, cookieOptions);
+if (event.user_data.fbp) {
+    setCookie('_fbp', event.user_data.fbp, cookieOptions);
 }
 
 sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
@@ -714,8 +714,8 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
         ['sw', sw],
         ['sh', sh],
         ['eid', event.event_id],
-        ['fbp', fbp],
-        ['fbc', fbc],
+        ['fbp', event.user_data.fbp],
+        ['fbc', event.user_data.fbc],
         ['ud[em]', event.user_data.em],
         ['ud[ph]', event.user_data.ph],
         ['ud[ge]', event.user_data.ge],
