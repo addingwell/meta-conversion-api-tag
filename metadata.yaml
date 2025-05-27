@@ -1,6 +1,8 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://docs.addingwell.com/meta-capi/benefits"
 versions:
+  - sha: c1eef1b2081f58e826123fd6d3fe9437b5867665
+    changeNotes: Ensure latest fbc and fbp are used even when tag sets them
   - sha: 0f5f2ca91304b8f70e5dd7650d3673106f36b984
     changeNotes: Add makeNumber for value
   - sha: 7f523d62a516409db313f6bf5fa0930c95f7ec4c
