@@ -36,6 +36,11 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
+    "type": "LABEL",
+    "name": "documentation",
+    "displayName": "This tag translates standard GA4 event data into Meta event formats and sends it to the Meta Conversion API and the Meta pixel (if \u003cb\u003eSend pixel request\u003c/b\u003e is checked). For detailed setup instructions, please refer to the \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/tag-setup\"\u003eAddingwell documentation\u003c/a\u003e.\u003cbr\u003e\u003cbr\u003e"
+  },
+  {
     "type": "SELECT",
     "name": "inheritEventName",
     "displayName": "Event Name Setup Method",
@@ -163,38 +168,41 @@ ___TEMPLATE_PARAMETERS___
         ],
         "displayName": "Event Type"
       }
-    ]
+    ],
+    "help": "2 options: \u003cul\u003e\u003cli\u003e\u003cb\u003eInherit from client\u003c/b\u003e: \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/ga4-meta-event-mapping-capi\"\u003eautomatic mapping\u003c/a\u003e between GA4 event names and Meta standard events. When a GA4 event name can\u0027t be mapped to a Meta standard event it is sent as a custom event.\u003c/li\u003e \u003cli\u003e\u003cb\u003eOverride\u003c/b\u003e: manually set which event you want to send to Meta whatever the GA4 event name is.\u003c/li\u003e \u003c/ul\u003e \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/tag-setup\"\u003eLearn more\u003c/a\u003e"
   },
   {
     "type": "TEXT",
     "name": "accessToken",
-    "displayName": "API Access Token",
+    "displayName": "Access Token",
     "simpleValueType": true,
-    "help": "Set to your Facebook API Access Token. See \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/server-side-api/get-started#access-token\" target\u003d\"_blank\"\u003ehere\u003c/a\u003e for more information.",
+    "help": "Meta Conversion API access token is available in Meta Events Manager. \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/find-meta-conversion-api-access-token\"\u003eLearn more\u003c/a\u003e",
     "valueValidators": [
       {
         "type": "NON_EMPTY"
       }
-    ]
+    ],
+    "valueHint": "EAACL4PkFYPABPHdpZC396s0ZBUZBhx"
   },
   {
     "type": "TEXT",
     "name": "pixelId",
-    "displayName": "Facebook Pixel ID",
+    "displayName": "Pixel ID",
     "simpleValueType": true,
     "valueValidators": [
       {
         "type": "NON_EMPTY"
       }
     ],
-    "help": "Set to a valid Facebook Pixel ID. You can only add a single Pixel ID per tag."
+    "help": "Meta Pixel ID is available in Meta Events Manager. \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/find-meta-pixel-id\"\u003eLearn more\u003c/a\u003e",
+    "valueHint": "1095474861854748"
   },
   {
     "type": "TEXT",
     "name": "testId",
     "displayName": "Test ID",
     "simpleValueType": true,
-    "help": "Provide a Test ID if you want to test server-side events in the Test Events feature of Events Manager.",
+    "help": "Provide a Test ID if you want to test server-side events in the Test Events feature of Events Manager. \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/test-events\"\u003eLearn more\u003c/a\u003e",
     "valueHint": "TEST123"
   },
   {
@@ -202,7 +210,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "sendPixelRequest",
     "checkboxText": "Send pixel request",
     "simpleValueType": true,
-    "help": "Send a pixel request back to the browser. Don\u0027t forget to remove the Facebook SDK if you activate this option."
+    "help": "Sends requests to Meta Pixel and manages event deduplication automatically. Make sure you remove any other Meta Pixel integration (hard-coded on your website or in Google Tag Manager Web) if you enable this option. \u003ca href\u003d\"https://docs.addingwell.com/en/meta-capi/tag-setup#send-pixel-request\"\u003eLearn more\u003c/a\u003e"
   },
   {
     "displayName": "Server Event Data Override",
@@ -235,7 +243,7 @@ ___TEMPLATE_PARAMETERS___
               },
               {
                 "value": "event_source_url",
-                "displayValue": "Source URL"
+                "displayValue": "Event Source URL"
               },
               {
                 "value": "opt_out",
@@ -267,13 +275,15 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "type": "SIMPLE_TABLE",
-        "newRowButtonText": "Add property"
+        "newRowButtonText": "Add property",
+        "displayName": "Server event data",
+        "help": "List of server event data:\n\u003cul\u003e\n\t\u003cli\u003e\u003cb\u003eAction Source\u003c/b\u003e: This field allows you to specify where your conversions occurred. \n\t\t\u003cul\u003e\n\t\t\t\u003cli\u003e\u003cb\u003eemail\u003c/b\u003e — Conversion happened over email.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003ewebsite\u003c/b\u003e — Conversion was made on your website.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003eapp\u003c/b\u003e — Conversion was made on your mobile app.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003ephone_call\u003c/b\u003e — Conversion was made over the phone.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003echat\u003c/b\u003e — Conversion was made via a messaging app, SMS, or online messaging feature.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003ephysical_store\u003c/b\u003e — Conversion was made in person at your physical store.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003esystem_generated\u003c/b\u003e — Conversion happened automatically, for example, a subscription renewal that’s set to auto-pay each month.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003ebusiness_messaging\u003c/b\u003e — Conversion was made from ads that click to Messenger, Instagram or WhatsApp.\u003c/li\u003e\n\t\t\t\u003cli\u003e\u003cb\u003eother\u003c/b\u003e — Conversion happened in a way that is not listed.\u003c/li\u003e\n\t\t\u003c/ul\u003e\n\t\t(default: \u003cb\u003ewebsite\u003c/b\u003e)\n\t\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eEvent Time\u003c/b\u003e: A Unix timestamp in seconds indicating when the actual event occurred. (default: eventData.event_time or Math.round(getTimestampMillis() / 1000))\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eEvent Source URL\u003c/b\u003e: The browser URL where the event happened. The URL should match the verified domain. (default: eventData.page_location)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eOpt Out\u003c/b\u003e: A flag that indicates we should not use this event for ads delivery optimization. If set to \u003cb\u003etrue\u003c/b\u003e, we only use the event for attribution. (No default)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eEvent ID\u003c/b\u003e: This ID can be any unique string chosen by the advertiser. (default: eventData.event_id or the tag generates one automatically)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eData Processing Options\u003c/b\u003e: Processing options you would like to enable for a specific event. Current accepted value is \u003cb\u003eLDU\u003c/b\u003e for Limited Data Use. (No default)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eData Processing Options Country\u003c/b\u003e: Required, if you send \u003cb\u003eLDU\u003c/b\u003e under data_processing_options. Current accepted values are 1, for the United States of America, or 0, to request that we geolocate that event. (No default)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eData Processing Options State\u003c/b\u003e: Current accepted values are 1000, for California, or 0, to request that we geolocate that event. (No default)\u003c/li\u003e\n\u003c/ul\u003e\n\u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event\"\u003eLearn more\u003c/a\u003e"
       }
     ],
     "help": "See \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event\" target\u003d\"_blank\"\u003ethis documentation\u003c/a\u003e for more details on what data parameters you can override."
   },
   {
-    "displayName": "User Data",
+    "displayName": "User Data Override",
     "name": "userDataListGroup",
     "groupStyle": "ZIPPY_CLOSED",
     "type": "GROUP",
@@ -375,13 +385,15 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "type": "SIMPLE_TABLE",
-        "newRowButtonText": "Add property"
+        "newRowButtonText": "Add property",
+        "help": "List of user data (when hashing is required, if you send it hashed the tag will forward it, if you send it plain the tag will hash it before sending it to Meta Conversion API):\n\u003cul\u003e\n\t\u003cli\u003e\u003cb\u003eEmail\u003c/b\u003e: (default: eventData.user_data.email_address or eventData.user_data.email)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003ePhone\u003c/b\u003e: (default: eventData.user_data.phone_number)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eGender\u003c/b\u003e: \u003cb\u003em\u003c/b\u003e for male and \u003cb\u003ef\u003c/b\u003e for female (default: eventData.user_data.address.gender)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eDate of Birth\u003c/b\u003e: YYYYMMDD format. (No default)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eLast Name\u003c/b\u003e: (default: eventData.user_data.address.last_name)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eFirst Name\u003c/b\u003e: (default: eventData.user_data.address.first_name)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eCity\u003c/b\u003e: (default: eventData.user_data.address.city)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eZip\u003c/b\u003e: (default: eventData.user_data.address.postal_code)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eCountry\u003c/b\u003e: Use the lowercase, 2-letter country codes in ISO 3166-1 alpha-2. (default: eventData.user_data.address.country)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eExternal ID\u003c/b\u003e: Any unique ID from the advertiser, such as loyalty membership IDs, user IDs, and external cookie IDs. (default: eventData.user_id)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eClient IP address\u003c/b\u003e: The IP address of the browser corresponding to the event must be a valid IPV4 or IPV6 address. (default: eventData.ip_override)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eClient user agent\u003c/b\u003e: The user agent for the browser corresponding to the event. (default: eventData.user_agent)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eClick ID\u003c/b\u003e: The Facebook click ID value is stored in the _fbc browser cookie under your domain. (default: cookies._fbc or eventData.fbc)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eBrowser ID\u003c/b\u003e: The Facebook browser ID value is stored in the _fbp browser cookie under your domain. (default: cookies._fbp or eventData.fbp)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eSubscription ID\u003c/b\u003e: The subscription ID for the user in this transaction; it is similar to the order ID for an individual product. (default: eventData.subscription_id)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eLead ID\u003c/b\u003e: The ID associated with a lead generated by Meta\u0027s Lead Ads. (default: eventData.lead_id)\u003c/li\u003e\n\t\u003cli\u003e\u003cb\u003eFB Login ID\u003c/b\u003e: The ID issued by Meta when a person first logs into an instance of an app. (default: eventData.fb_login_id))\u003c/li\u003e\n\u003c/ul\u003e\n\u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters\"\u003eLearn more\u003c/a\u003e",
+        "displayName": "User data"
       }
     ],
     "help": "See \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/server-side-api/parameters/user-data\" target\u003d\"_blank\"\u003ethis documentation\u003c/a\u003e for more details on what user data parameters you can add to the call. If the documentation requires the parameter to be hashed, you \u003cstrong\u003emust\u003c/strong\u003e hash it with SHA256, or the tag will do this automatically before sending the event to Facebook."
   },
   {
-    "displayName": "Custom Data",
+    "displayName": "Custom Data Override",
     "name": "customDataListGroup",
     "groupStyle": "ZIPPY_CLOSED",
     "type": "GROUP",
@@ -409,15 +421,16 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "type": "SIMPLE_TABLE",
-        "newRowButtonText": "Add property"
+        "newRowButtonText": "Add property",
+        "help": "List of most used custom data parameters: \u003cul\u003e \t\u003cli\u003e\u003cb\u003ecurrency\u003c/b\u003e: Required for purchase events. The currency for the value specified, if applicable. (default: EUR)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003evalue\u003c/b\u003e: Required for purchase events or any events that utilize value optimization. (default: eventData.value)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003epredicted_ltv\u003c/b\u003e: The predicted lifetime value of a conversion event. (default: eventData.customer_lifetime_value)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003esearch_string\u003c/b\u003e: Use only with Search events. A search query made by a user. (default: eventData.search_term)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003eorder_id\u003c/b\u003e: The order ID for this transaction as a string. (default: eventData.transaction_id)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_category\u003c/b\u003e: Category of the page/product. (default: eventData.items.0.item_category)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_name\u003c/b\u003e: Name of the page/product. (default: eventData.items.0.item_name)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_type\u003c/b\u003e: Either product or product_group based on the content_ids or contents being passed. (default: \u0027product\u0027 if eventData.items is defined)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtents\u003c/b\u003e: An array of JSON objects that contains the id and the quantity (default: uses item_id and quantity fields in the eventData.items array)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_ids\u003c/b\u003e: Product IDs associated with the event (default: uses item_id field in eventData.items array)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003enum_items\u003c/b\u003e: Used with InitiateCheckout event. The number of items when checkout was initiated. (default: eventData.items.length)\u003c/li\u003e \u003c/ul\u003e \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data\"\u003eSee all parameters reference\u003c/a\u003e",
+        "displayName": "Custom data"
       }
-    ],
-    "help": "See \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data\" target\u003d\"_blank\"\u003ethis documentation\u003c/a\u003e for more details on what data parameters you can add to the call."
+    ]
   },
   {
     "type": "GROUP",
     "name": "itemDataListGroup",
-    "displayName": "Items Data",
+    "displayName": "Items Data Override",
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
@@ -451,7 +464,8 @@ ___TEMPLATE_PARAMETERS___
             "name": "field",
             "type": "TEXT"
           }
-        ]
+        ],
+        "help": "Override the field name this tag will look for in the GA4 \u003cb\u003eeventData.items\u003c/b\u003e array. (e.g. if Property Name \u003d \u003ci\u003eitem_id\u003c/i\u003e and Property Field \u003d \u003ci\u003eitem_variant_id\u003c/i\u003e the tag will use \u003ci\u003eitem_variant_id\u003c/i\u003e as item ID to fill \u003cb\u003econtents\u003c/b\u003e and \u003cb\u003econtent_ids\u003c/b\u003e arrays)"
       }
     ],
     "help": "See \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data\" target\u003d\"_blank\"\u003ethis documentation\u003c/a\u003e for more details on contents you can add to the call."
@@ -486,7 +500,7 @@ const isLoggingEnabled = determinateIsLoggingEnabled();
 const traceId = isLoggingEnabled ? getRequestHeader('trace-id') : undefined;
 
 const API_ENDPOINT = 'https://graph.facebook.com';
-const API_VERSION = 'v22.0';
+const API_VERSION = 'v23.0';
 const PARTNER_AGENT = 'gtmss-addingwell-1.0.0';
 const GTM_EVENT_MAPPINGS = {
   'page_view': 'PageView',
@@ -519,8 +533,8 @@ const eventData = getAllEventData();
 const url = eventData.page_location || getRequestHeader('referer');
 const subDomainIndex = url ? computeEffectiveTldPlusOne(url).split('.').length - 1 : 1;
 
-let fbc = getCookieValues('_fbc')[0] || eventData._fbc;
-let fbp = getCookieValues('_fbp')[0] || eventData._fbp;
+let fbc = getCookieValues('_fbc')[0] || eventData.fbc;
+let fbp = getCookieValues('_fbp')[0] || eventData.fbp;
 
 if (url) {
   const urlParsed = parseUrl(url);
@@ -571,7 +585,7 @@ event.user_data.country = addressData.country;
 event.custom_data = {};
 event.custom_data.currency = eventData.currency || ((eventData.items && eventData.items[0]) ? eventData.items[0].currency : undefined);
 event.custom_data.value = makeNumber(eventData.value) || getValueFromItems(eventData.items);
-event.custom_data.search_string = eventData.search_term;
+event.custom_data.predicted_ltv = makeNumber(eventData.customer_lifetime_value);
 event.custom_data.order_id = eventData.transaction_id;
 event.custom_data.content_category = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_category : undefined;
 event.custom_data.content_name = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_name : undefined;
@@ -581,8 +595,11 @@ event.custom_data.content_ids = getContentIdsFromItems(eventData.items);
 if (event.event_name === 'InitiateCheckout') {
   event.custom_data.num_items = getItemsQuantity(eventData.items);
 }
+if(event.event_name === "Search") {
+  event.custom_data.search_string = eventData.search_term;
+}
 if (!event.custom_data.currency && (event.custom_data.contents || event.custom_data.value)) {
-  event.custom_data.currency = 'USD';
+  event.custom_data.currency = 'EUR';
 }
 
 // Override data with configuration
@@ -735,6 +752,7 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
         ['cd[currency]', event.custom_data.currency],
         ['cd[search_string]', event.custom_data.search_string],
         ['cd[value]', event.custom_data.value],
+        ['cd[predicted_ltv]', event.custom_data.predicted_ltv],
       ];
 
       if (data.customDataList) {
@@ -1100,7 +1118,7 @@ ___SERVER_PERMISSIONS___
           "key": "environments",
           "value": {
             "type": 1,
-            "string": "all"
+            "string": "debug"
           }
         }
       ]
@@ -1211,7 +1229,19 @@ ___SERVER_PERMISSIONS___
           "key": "allowedUrls",
           "value": {
             "type": 1,
-            "string": "any"
+            "string": "specific"
+          }
+        },
+        {
+          "key": "urls",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "https://www.facebook.com/"
+              }
+            ]
           }
         }
       ]
