@@ -1,6 +1,8 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://docs.addingwell.com/meta-capi/benefits"
 versions:
+  - sha: 8c5927f972863bea38bed501c18ef36c3dd74d89
+    changeNotes: Add documentation + fixes
   - sha: c1eef1b2081f58e826123fd6d3fe9437b5867665
     changeNotes: Ensure latest fbc and fbp are used even when tag sets them
   - sha: 0f5f2ca91304b8f70e5dd7650d3673106f36b984
