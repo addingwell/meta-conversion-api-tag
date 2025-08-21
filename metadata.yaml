@@ -1,6 +1,8 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://docs.addingwell.com/meta-capi/benefits"
 versions:
+  - sha: 554fa150e064507a14beff719af8aad0f4191cb7
+    changeNotes: Change pixel query parameters
   - sha: 8c5927f972863bea38bed501c18ef36c3dd74d89
     changeNotes: Add documentation + fixes
   - sha: c1eef1b2081f58e826123fd6d3fe9437b5867665
