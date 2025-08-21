@@ -726,6 +726,7 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
 
       let urlParams = [
         ['id', enc(data.pixelId)],
+        ['ev', event.event_name],
         ['dl', eventData.page_location],
         ['rl', eventData.page_referrer],
         ['sw', sw],
@@ -769,9 +770,9 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
         });
       }
 
-      let params = "?ev=" + event.event_name + '&' + urlParams.filter((v) => v[1]).map((v) => v[0] + '=' + encodeUriComponent(v[1].toString())).join('&');
+      let params = "?" + urlParams.filter((v) => v[1]).map((v) => v[0] + '=' + encodeUriComponent(v[1].toString())).join('&');
 
-      sendPixelFromBrowser('https://www.facebook.com/tr/' + params);
+      sendPixelFromBrowser('https://www.facebook.com/tr' + params);
     }
 
     data.gtmOnSuccess();
