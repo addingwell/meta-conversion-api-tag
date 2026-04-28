@@ -422,7 +422,7 @@ ___TEMPLATE_PARAMETERS___
         ],
         "type": "SIMPLE_TABLE",
         "newRowButtonText": "Add property",
-        "help": "List of most used custom data parameters: \u003cul\u003e \t\u003cli\u003e\u003cb\u003ecurrency\u003c/b\u003e: Required for purchase events. The currency for the value specified, if applicable. (default: EUR)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003evalue\u003c/b\u003e: Required for purchase events or any events that utilize value optimization. (default: eventData.value)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003epredicted_ltv\u003c/b\u003e: The predicted lifetime value of a conversion event. (default: eventData.customer_lifetime_value)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003esearch_string\u003c/b\u003e: Use only with Search events. A search query made by a user. (default: eventData.search_term)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003eorder_id\u003c/b\u003e: The order ID for this transaction as a string. (default: eventData.transaction_id)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_category\u003c/b\u003e: Category of the page/product. (default: eventData.items.0.item_category)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_name\u003c/b\u003e: Name of the page/product. (default: eventData.items.0.item_name)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_type\u003c/b\u003e: Either product or product_group based on the content_ids or contents being passed. (default: \u0027product\u0027 if eventData.items is defined)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtents\u003c/b\u003e: An array of JSON objects that contains the id and the quantity (default: uses item_id and quantity fields in the eventData.items array)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_ids\u003c/b\u003e: Product IDs associated with the event (default: uses item_id field in eventData.items array)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003enum_items\u003c/b\u003e: Used with InitiateCheckout event. The number of items when checkout was initiated. (default: eventData.items.length)\u003c/li\u003e \u003c/ul\u003e \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data\"\u003eSee all parameters reference\u003c/a\u003e",
+        "help": "List of most used custom data parameters: \u003cul\u003e \t\u003cli\u003e\u003cb\u003ecurrency\u003c/b\u003e: Required for purchase events. The currency for the value specified, if applicable. (default: eventData.currency)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003evalue\u003c/b\u003e: Required for purchase events or any events that utilize value optimization. (default: eventData.value)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003epredicted_ltv\u003c/b\u003e: The predicted lifetime value of a conversion event. (default: eventData.customer_lifetime_value)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003esearch_string\u003c/b\u003e: Use only with Search events. A search query made by a user. (default: eventData.search_term)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003eorder_id\u003c/b\u003e: The order ID for this transaction as a string. (default: eventData.transaction_id)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_category\u003c/b\u003e: Category of the page/product. (default: eventData.items.0.item_category)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_name\u003c/b\u003e: Name of the page/product. (default: eventData.items.0.item_name)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_type\u003c/b\u003e: Either product or product_group based on the content_ids or contents being passed. (default: \u0027product\u0027 if eventData.items is defined)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtents\u003c/b\u003e: An array of JSON objects that contains the id and the quantity (default: uses item_id and quantity fields in the eventData.items array)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003econtent_ids\u003c/b\u003e: Product IDs associated with the event (default: uses item_id field in eventData.items array)\u003c/li\u003e \t\u003cli\u003e\u003cb\u003enum_items\u003c/b\u003e: Used with InitiateCheckout event. The number of items when checkout was initiated. (default: eventData.items.length)\u003c/li\u003e \u003cli\u003e\u003cb\u003enet_revenue\u003c/b\u003e: The margin value of the conversion (no default value)\u003c/li\u003e \u003c/ul\u003e \u003ca href\u003d\"https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/custom-data\"\u003eSee all parameters reference\u003c/a\u003e",
         "displayName": "Custom data"
       }
     ]
@@ -713,10 +713,10 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
 
   if (statusCode >= 200 && statusCode < 300) {
     if (!!data.sendPixelRequest) {
-      
+
       let sw;
       let sh;
-      
+
       if(eventData.screen_resolution) {
         if(eventData.screen_resolution.split('x').length == 2) {
           sw = eventData.screen_resolution.split('x')[0];
@@ -758,6 +758,10 @@ sendHttpRequest(graphEndpoint, (statusCode, headers, body) => {
 
       if (data.customDataList) {
         data.customDataList.forEach(d => {
+          if(d.name === 'net_revenue') {
+            return;
+          }
+
           let value;
           if (d.name === 'content_ids') {
             value = JSON.stringify(d.value);
