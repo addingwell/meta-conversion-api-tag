@@ -500,7 +500,7 @@ const isLoggingEnabled = determinateIsLoggingEnabled();
 const traceId = isLoggingEnabled ? getRequestHeader('trace-id') : undefined;
 
 const API_ENDPOINT = 'https://graph.facebook.com';
-const API_VERSION = 'v23.0';
+const API_VERSION = 'v26.0';
 const PARTNER_AGENT = 'gtmss-addingwell-1.0.0';
 const GTM_EVENT_MAPPINGS = {
   'page_view': 'PageView',
@@ -560,7 +560,7 @@ event.action_source = eventData.action_source ? eventData.action_source : 'websi
 
 // USER DATA
 event.user_data = {};
-event.user_data.client_ip_address = eventData.ip_override;
+event.user_data.client_ip_address = eventData.ip_override ? makeString(eventData.ip_override).split(',')[0].trim() : undefined;
 event.user_data.client_user_agent = eventData.user_agent;
 event.user_data.fbc = fbc;
 event.user_data.fbp = fbp;
@@ -584,8 +584,9 @@ event.user_data.country = addressData.country;
 // CUSTOM DATA
 event.custom_data = {};
 event.custom_data.currency = eventData.currency || ((eventData.items && eventData.items[0]) ? eventData.items[0].currency : undefined);
-event.custom_data.value = makeNumber(eventData.value) || getValueFromItems(eventData.items);
-event.custom_data.predicted_ltv = makeNumber(eventData.customer_lifetime_value);
+const eventValue = parseNumber(eventData.value);
+event.custom_data.value = hasUsableValue(eventValue) ? eventValue : getValueFromItems(eventData.items);
+event.custom_data.predicted_ltv = parseNumber(eventData.customer_lifetime_value);
 event.custom_data.order_id = eventData.transaction_id;
 event.custom_data.content_category = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_category : undefined;
 event.custom_data.content_name = (eventData.items && eventData.items.length == 1) ? eventData.items[0].item_name : undefined;
@@ -598,7 +599,7 @@ if (event.event_name === 'InitiateCheckout') {
 if(event.event_name === "Search") {
   event.custom_data.search_string = eventData.search_term;
 }
-if (!event.custom_data.currency && (event.custom_data.contents || event.custom_data.value)) {
+if (!event.custom_data.currency && (event.custom_data.contents || hasUsableValue(event.custom_data.value))) {
   event.custom_data.currency = 'EUR';
 }
 
@@ -617,8 +618,9 @@ if (data.userDataList) {
 
 if (data.customDataList) {
   data.customDataList.forEach(d => {
-    if(d.name == "value") {
-      event.custom_data[d.name] = makeNumber(d.value);
+    if (d.name === 'value') {
+      const overrideValue = parseNumber(d.value);
+      if (hasUsableValue(overrideValue)) event.custom_data.value = overrideValue;
     } else {
       event.custom_data[d.name] = d.value;
     }
@@ -626,39 +628,15 @@ if (data.customDataList) {
 }
 
 // Clean data and remove empty values
-let commonData = {};
-for (let commonDataKey in event) {
-  if (event[commonDataKey]) {
-    commonData[commonDataKey] = event[commonDataKey];
-  }
-}
-event = commonData;
-
-if (event.user_data) {
-  let userData = {};
-  for (let userDataKey in event.user_data) {
-    if (event.user_data[userDataKey]) {
-      userData[userDataKey] = event.user_data[userDataKey];
-    }
-  }
-  event.user_data = userData;
-}
-
-if (event.custom_data) {
-  let customData = {};
-  for (let customDataKey in event.custom_data) {
-    if (event.custom_data[customDataKey] || customDataKey === 'value') {
-      customData[customDataKey] = event.custom_data[customDataKey];
-    }
-  }
-  event.custom_data = customData;
-}
+event = dropEmptyFields(event);
+event.user_data = dropEmptyFields(event.user_data);
+event.custom_data = dropEmptyFields(event.custom_data);
 
 // Hash user data
 if (event.user_data) {
   for (let key in event.user_data) {
     if (key === 'em' || key === 'ph' || key === 'ge' || key === 'db' || key === 'ln' || key === 'fn' || key === 'ct' || key === 'st' || key === 'zp' || key === 'country') {
-      event.user_data[key] = hashData(event.user_data[key]);
+      event.user_data[key] = hashUserValue(key, event.user_data[key]);
     }
   }
 }
@@ -819,21 +797,26 @@ function getContentFromItems(items) {
   const idField = getItemField('item_id');
   const priceField = getItemField('price');
   const quantityField = getItemField('quantity');
-  return items.map(item => {
-    return {
+  const contents = [];
+  items.forEach(item => {
+    if (!hasUsableValue(item[idField])) return;
+    contents.push({
       "id": item[idField],
-      "item_price": makeNumber(item[priceField]),
-      "quantity": makeNumber(item[quantityField]),
-    };
+      "item_price": parseNumber(item[priceField]),
+      "quantity": parseNumber(item[quantityField]),
+    });
   });
+  return contents.length ? contents : undefined;
 }
 
 function getContentIdsFromItems(items) {
   if (!items) return undefined;
   const idField = getItemField('item_id');
-  return items.map(item => {
-    return item[idField];
+  const ids = [];
+  items.forEach(item => {
+    if (hasUsableValue(item[idField])) ids.push(item[idField]);
   });
+  return ids.length ? ids : undefined;
 }
 
 function getItemsQuantity(items) {
@@ -844,16 +827,20 @@ function getItemsQuantity(items) {
 function getValueFromItems(items) {
   if (!items) return undefined;
   let value = 0;
+  let hasPrice = false;
 
   const priceField = getItemField('price');
   const quantityField = getItemField('quantity');
 
   items.forEach((item) => {
-    let price = makeNumber(item[priceField]);
-    value += item[quantityField] ? makeNumber(item[quantityField]) * price : price;
+    const price = parseNumber(item[priceField]);
+    if (!hasUsableValue(price)) return;
+    const quantity = parseNumber(item[quantityField]);
+    value += hasUsableValue(quantity) ? quantity * price : price;
+    hasPrice = true;
   });
 
-  return value;
+  return hasPrice ? value : undefined;
 }
 
 function mapContentsToPixel(contents) {
@@ -885,12 +872,44 @@ function isAlreadyHashed(input){
   return input && (input.toString().match('^[A-Fa-f0-9]{64}$') != null);
 }
 
-function hashData(input){
+function hashUserValue(key, input){
   if(input == null || isAlreadyHashed(input)){
     return input;
   }
 
-  return sha256Sync(input.toString().trim().toLowerCase(), {outputEncoding: 'hex'});
+  let value = input.toString().trim().toLowerCase();
+  if (key === 'ph') {
+    value = keepDigitsOnly(value);
+  }
+  if (!value) return undefined;
+
+  return sha256Sync(value, {outputEncoding: 'hex'});
+}
+
+function keepDigitsOnly(text) {
+  return text.split('').filter((c) => '0123456789'.indexOf(c) !== -1).join('');
+}
+
+function hasUsableValue(value) {
+  if (value === undefined || value === null || value !== value) return false;
+  return ['', 'undefined', 'null'].indexOf(value) === -1;
+}
+
+function parseNumber(value) {
+  const type = getType(value);
+  if (type !== 'number' && type !== 'string') return undefined;
+  const text = makeString(value).trim();
+  if (!hasUsableValue(text)) return undefined;
+  const parsed = makeNumber(text);
+  return (parsed === parsed && parsed !== Infinity && parsed !== -Infinity) ? parsed : undefined;
+}
+
+function dropEmptyFields(obj) {
+  const result = {};
+  for (let key in obj) {
+    if (hasUsableValue(obj[key])) result[key] = obj[key];
+  }
+  return result;
 }
 
 function determinateIsLoggingEnabled() {
