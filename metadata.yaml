@@ -1,6 +1,8 @@
 homepage: "https://www.addingwell.com"
 documentation: "https://docs.addingwell.com/meta-capi/benefits"
 versions:
+  - sha: c206995ae96e95aafd1770d7f0a8ef52964cbca8
+    changeNotes: Update API to v26.0, fix value handling, normalize phone number and ignore empty values
   - sha: 554fa150e064507a14beff719af8aad0f4191cb7
     changeNotes: Change pixel query parameters
   - sha: 8c5927f972863bea38bed501c18ef36c3dd74d89
