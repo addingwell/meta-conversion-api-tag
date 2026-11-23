@@ -901,7 +901,7 @@ function parseNumber(value) {
   const text = makeString(value).trim();
   if (!hasUsableValue(text)) return undefined;
   const parsed = makeNumber(text);
-  return (parsed === parsed && parsed !== Infinity && parsed !== -Infinity) ? parsed : undefined;
+  return (parsed - parsed === 0) ? parsed : undefined;
 }
 
 function dropEmptyFields(obj) {
